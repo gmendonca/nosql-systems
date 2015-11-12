@@ -1,10 +1,13 @@
 # MongoDB
 
 http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html
+
+```vim
 export EC2_HOME="/opt/ec2-api-tools"
 export AWS_ACCESS_KEY="lalala"
 export AWS_SECRET_KEY="lululu"
 export EC2_URL="https://ec2.us-west-2.amazonaws.com/"
+```
 
 ```bash
 ec2-run-instances ami-5189a661 -t t2.micro -g sg-cc7010a9 -k key-pair-name -b "/dev/xvdf=:200:false:io1:1000" -b "/dev/xvdg=:25:false:io1:250" -b "/dev/xvdh=:10:false:io1:100"
@@ -17,6 +20,23 @@ $ sudo apt-get update
 $ sudo apt-get install mongodb-org
 ```
 
+(Reference)[https://docs.mongodb.org/ecosystem/platforms/amazon-ec2/]
 ```bash
-sudo pip install pymongo
+$ sudo mkdir /data /log /journal
+
+$ sudo mkfs.ext4 /dev/xvdf
+$ sudo mkfs.ext4 /dev/xvdg
+$ sudo mkfs.ext4 /dev/xvdh
+
+$ echo '/dev/xvdf /data ext4 defaults,auto,noatime,noexec 0 0
+/dev/xvdg /journal ext4 defaults,auto,noatime,noexec 0 0
+/dev/xvdh /log ext4 defaults,auto,noatime,noexec 0 0' | sudo tee -a /etc/fstab
+
+$ sudo mount /data
+$ sudo mount /journal
+$ sudo mount /log
+
+$ sudo chown mongodb:mongodb /data /journal /log
+
+$ sudo ln -s /journal /data/journal
 ```
