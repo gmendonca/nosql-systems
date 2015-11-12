@@ -1,6 +1,6 @@
 # MongoDB
 
-http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html
+[Reference](http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html)
 
 ```vim
 export EC2_HOME="/opt/ec2-api-tools"
@@ -20,7 +20,7 @@ $ sudo apt-get update
 $ sudo apt-get install mongodb-org
 ```
 
-(Reference)[https://docs.mongodb.org/ecosystem/platforms/amazon-ec2/]
+[Reference](https://docs.mongodb.org/ecosystem/platforms/amazon-ec2/)
 ```bash
 $ sudo mkdir /data /log /journal
 
