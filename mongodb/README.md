@@ -40,3 +40,52 @@ $ sudo chown mongodb:mongodb /data /journal /log
 
 $ sudo ln -s /journal /data/journal
 ```
+
+Edit file ```/etc/mongodb.conf```:
+```text
+# Where and how to store data.
+storage:
+  dbPath: /data
+  journal:
+    enabled: true
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /log/mongod.log
+ ```
+
+ Changes to ulimit for MongoDB:
+ ```bash$ sudo nano /etc/security/limits.conf
+* soft nofile 64000
+* hard nofile 64000
+* soft nproc 32000
+* hard nproc 32000
+
+$ sudo nano /etc/security/limits.d/90-nproc.conf
+* soft nproc 32000
+* hard nproc 32000
+```
+
+Read-ahead changes for MongoDB:
+
+```bash
+$ sudo blockdev --setra 32 /dev/xvdf
+$ sudo blockdev --setra 32 /dev/xvdg
+$ sudo blockdev --setra 32 /dev/xvdh
+```
+To make it persistent across system boot:
+```bash
+$ echo 'ACTION=="add", KERNEL=="xvdf", ATTR{bdi/read_ahead_kb}="16"' | sudo tee -a /etc/udev/rules.d/85-ebs.rule
+```
+
+To start MongoDB:
+```bash
+$ sudo service mongod start
+```
+
+To make it start automatically at boot:
+```bash
+$ sudo chkconfig mongod on
+```
