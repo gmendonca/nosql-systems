@@ -54,10 +54,10 @@ systemLog:
   destination: file
   logAppend: true
   path: /log/mongod.log
- ```
+```
 
- Changes to ulimit for MongoDB:
- ```bash$ sudo nano /etc/security/limits.conf
+Changes to ulimit for MongoDB:
+```bash$ sudo nano /etc/security/limits.conf
 * soft nofile 64000
 * hard nofile 64000
 * soft nproc 32000
@@ -69,7 +69,6 @@ $ sudo nano /etc/security/limits.d/90-nproc.conf
 ```
 
 Read-ahead changes for MongoDB:
-
 ```bash
 $ sudo blockdev --setra 32 /dev/xvdf
 $ sudo blockdev --setra 32 /dev/xvdg
