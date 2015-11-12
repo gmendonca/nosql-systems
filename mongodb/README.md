@@ -12,6 +12,15 @@ $ sudo apt-get update
 $ apt-get install mongodb-org
 ```
 
+http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html
+export EC2_HOME="/opt/ec2-api-tools"
+export AWS_ACCESS_KEY="lalala"
+export AWS_SECRET_KEY="lululu"
+export EC2_URL="https://ec2.us-west-2.amazonaws.com/"
+
+```bash
+ec2-run-instances ami-ami-5189a661 -t t2.micro -g sg-cc7010a9 -b "/dev/xvdf=:200:false:io1:1000" -b "/dev/xvdg=:25:false:io1:250" -b "/dev/xvdh=:10:false:io1:100" --ebs-optimized true
+
 ```bash
 sudo pip install pymongo
 ```
