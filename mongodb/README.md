@@ -57,7 +57,8 @@ systemLog:
 ```
 
 Changes to ulimit for MongoDB:
-```bash$ sudo nano /etc/security/limits.conf
+```bash
+$ sudo nano /etc/security/limits.conf
 * soft nofile 64000
 * hard nofile 64000
 * soft nproc 32000
