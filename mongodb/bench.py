@@ -16,6 +16,8 @@ db.key_pair.create_index("key")
 db.key_pair.create_index("value")
 
 operations = 1000
+if len(sys.argv) > 0:
+    operations =  int(sys.argv[1])
 print "Number of operations:", operations
 
 
