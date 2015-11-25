@@ -89,3 +89,14 @@ To make it start automatically at boot:
 ```bash
 $ sudo chkconfig mongod on
 ```
+
+# Deploying a shard cluster
+
+```bash
+$ sudo mkdir /data/configdb
+$ sudo mkdir /data/configdb2
+$ sudo mkdir /data/configdb3
+
+$ sudo mongod --configsvr --dbpath /data/configdb --port 27019 &
+$ sudo mongod --configsvr --dbpath /data/configdb2 --port 27020 &
+$ sudo mongod --configsvr --dbpath /data/configdb3 --port 27021 &
