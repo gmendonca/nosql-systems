@@ -121,3 +121,7 @@ $ sudo mongos --configdb 172.31.11.46:27019,172.31.11.46:27020,172.31.11.46:2702
  mongos> sh.addShard( "172.31.1.239:27017" )
  mongos> sh.addShard( "172.31.8.17:27017" )
  mongos> sh.addShard( "172.31.5.144:27017" )
+
+mongos> sh.enableSharding("database")
+
+mongos> sh.shardCollection("database.key-pair",{ "_id": "hashed" })
