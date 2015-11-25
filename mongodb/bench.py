@@ -25,13 +25,13 @@ print "Starting timer..."
 startTotal = start = time.time()
 for i in range(operations):
     db.key_pair.insert_one({"key": string_generator(10), "value": string_generator(90)})
-print "Insert Time:",time.time() - start
+print "Insert Time:",time.time() - start,"seconds"
 start = time.time()
 for i in range(operations):
     db.key_pair.find_one({"key": string_generator(10)})
-print "Lookup Time:",time.time() - start
+print "Lookup Time:",time.time() - start,"seconds"
 start = time.time()
 for item in db.key_pair.find():
     db.key_pair.remove({"key": item["key"]})
-print "Delete Time:",time.time() - start
-print "Overall Time:",time.time() - startTotal
+print "Delete Time:",time.time() - start,"seconds"
+print "Overall Time:",time.time() - startTotal,"seconds"
