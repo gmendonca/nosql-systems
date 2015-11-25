@@ -114,14 +114,24 @@ Since I am using all the three config-servers in the same node:
 ```bash
 $ sudo mongos --configdb 172.31.11.46:27019,172.31.11.46:27020,172.31.11.46:27021
 ```
-
- mongo --host 172.31.32.209 --port 27017
-
- mongos> sh.addShard( "172.31.2.87:27017" )
- mongos> sh.addShard( "172.31.1.239:27017" )
- mongos> sh.addShard( "172.31.8.17:27017" )
- mongos> sh.addShard( "172.31.5.144:27017" )
-
+```bash
+ $ mongo --host 172.31.32.209 --port 27017
+```
+```
+mongos> sh.addShard( "172.31.2.87:27017" )
+mongos> sh.addShard( "172.31.1.239:27017" )
+mongos> sh.addShard( "172.31.8.17:27017" )
+mongos> sh.addShard( "172.31.5.144:27017" )
 mongos> sh.enableSharding("database")
-
 mongos> sh.shardCollection("database.key-pair",{ "_id": "hashed" })
+
+```
+
+Installing pip and pymongo:
+```bash
+$ sudo apt-get install python-pip python-dev build-essential
+$ sudo pip install --upgrade pip
+$ sudo pip install --upgrade virtualenv
+
+$ sudo pip install pymongo
+```
