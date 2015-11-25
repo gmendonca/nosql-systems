@@ -56,6 +56,14 @@ systemLog:
   path: /log/mongod.log
 ```
 
+Comment this line ```bindIp: 127.0.0.1``` on file ```/etc/mongodb.conf``` if it's a cluster:
+```text
+# network interfaces
+net:
+  port: 27017
+  #bindIp: 127.0.0.1
+```
+
 Changes to ulimit for MongoDB:
 ```bash
 $ sudo nano /etc/security/limits.conf
@@ -100,3 +108,16 @@ $ sudo mkdir /data/configdb3
 $ sudo mongod --configsvr --dbpath /data/configdb --port 27019 &
 $ sudo mongod --configsvr --dbpath /data/configdb2 --port 27020 &
 $ sudo mongod --configsvr --dbpath /data/configdb3 --port 27021 &
+```
+
+Since I am using all the three config-servers in the same node:
+```bash
+$ sudo mongos --configdb 172.31.11.46:27019,172.31.11.46:27020,172.31.11.46:27021
+```
+
+ mongo --host 172.31.32.209 --port 27017
+
+ mongos> sh.addShard( "172.31.2.87:27017" )
+ mongos> sh.addShard( "172.31.1.239:27017" )
+ mongos> sh.addShard( "172.31.8.17:27017" )
+ mongos> sh.addShard( "172.31.5.144:27017" )
