@@ -15,12 +15,10 @@ db.key_pair.create_index("value")
 operations = 10
 
 for i in range(operations):
-
-    db.key_pair.insert_one({"key": i, "value": string_generator(90)})
+    db.key_pair.insert_one({"key": string_generator(10), "value": string_generator(90)})
 
 for i in range(operations):
-    item = db.key_pair.find_one({"key": i})
-    print item
+    db.key_pair.find_one({"key": string_generator(10)})
 
 for item in db.key_pair.find():
     db.key_pair.remove({"key": item["key"]})
