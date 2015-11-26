@@ -21,6 +21,7 @@ if (len(sys.argv) >= 2 and len(sys.argv) <= 4):
         port = int(sys.argv[3])
 else:
     print "Usage: python",sys.argv[0],"[number_operations] [host] [port]"
+    exit()
 
 print "Number of operations:",operations
 print "Host:","\""+host + ":" + str(port)+"\""
