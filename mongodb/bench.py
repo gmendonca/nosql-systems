@@ -23,7 +23,7 @@ else:
     print "Usage: python",sys.argv[0],"[number_operations] [host] [port]"
 
 print "Number of operations:",operations
-print "Host:",
+print "Host:",host + ":" + str(port)
 
 client = pymongo.MongoClient(host, port)
 
