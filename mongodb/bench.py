@@ -33,6 +33,11 @@ db = client.database
 db.key_pair.create_index([("_id", pymongo.HASHED)])
 db.key_pair.create_index("value")
 
+#sharding
+db.command("addshard", "172.31.2.87:27017")
+db.command("enablesharding", "database")
+db.command("shardcollection", "database.key-pair", key={ "_id": "hashed" })
+
 
 print "Starting timer..."
 startTotal = start = time.time()
