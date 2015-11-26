@@ -66,13 +66,13 @@ net:
 
 Changes to ulimit for MongoDB:
 ```bash
-$ sudo nano /etc/security/limits.conf
+$ sudo vim /etc/security/limits.conf
 * soft nofile 64000
 * hard nofile 64000
 * soft nproc 32000
 * hard nproc 32000
 
-$ sudo nano /etc/security/limits.d/90-nproc.conf
+$ sudo vim /etc/security/limits.d/90-nproc.conf
 * soft nproc 32000
 * hard nproc 32000
 ```
@@ -93,9 +93,10 @@ To start MongoDB:
 $ sudo service mongod start
 ```
 
-To make it start automatically at boot:
-```bash
-$ sudo chkconfig mongod on
+In Ubuntu by default mongod start at run level, to change this behaviour edit ```sudo vim /etc/init/mongod.conf``` and comment this line:
+
+```text
+#start on runlevel [2345]
 ```
 
 # Deploying a shard cluster
