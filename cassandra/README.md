@@ -13,12 +13,8 @@ $ vim ~/.bashrc
 
 
 #JAVA_HOME
-export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
-```
-or like this:
-
-```bash
-$ echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java" >> ~/.bashrc
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
+export PATH=$JAVA_HOME/bin:$PATH
 ```
 
 [Reference](http://docs.datastax.com/en/cassandra/2.2/cassandra/install/installDeb.html)
