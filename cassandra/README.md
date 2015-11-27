@@ -1,3 +1,5 @@
+## Installing Java
+
 ```bash
 $ sudo apt-get update
 $ sudo apt-get install openjdk-7-jdk
@@ -16,6 +18,8 @@ $ vim ~/.bashrc
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
 export PATH=$JAVA_HOME/bin:$PATH
 ```
+
+## Installing Cassandra
 
 [Reference](http://docs.datastax.com/en/cassandra/2.2/cassandra/install/installDeb.html)
 ```bash
@@ -79,6 +83,7 @@ $ sudo pip install --upgrade virtualenv
 $ sudo pip install cassandra-driver
 ```
 
+## Limits configuration
 [Reference](http://docs.datastax.com/en/cassandra/2.0/cassandra/install/installRecommendSettings.html)
 Add line to ```/etc/sysctl.conf```:
 ```
