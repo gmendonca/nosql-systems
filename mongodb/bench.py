@@ -42,11 +42,11 @@ db.command("shardcollection", "database.key-pair", key={ "_id": "hashed" })
 print "Starting timer..."
 startTotal = start = time.time()
 for i in range(operations):
-    db.key_pair.insert_one({"_id": host+str(port)+str(i), "value": string_generator(90)})
+    db.key_pair.insert_one({"_id":  string_generator(10), "value": string_generator(90)})
 print "Insert Time:",time.time() - start,"seconds"
 start = time.time()
 for i in range(operations):
-    db.key_pair.find_one({"_id": host+str(port)+str(i)})
+    db.key_pair.find_one({"_id": string_generator(10)})
     #print db.key_pair.find_one({"_id": host+str(port)+str(i)})
 print "Lookup Time:",time.time() - start,"seconds"
 start = time.time()
