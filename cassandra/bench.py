@@ -5,6 +5,7 @@ import random
 def string_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
     return ''.join(random.choice(chars) for _ in range(size))
 
+operations = 100
 
 cluster = Cluster()
 session = cluster.connect()
@@ -22,9 +23,17 @@ CREATE TABLE IF NOT EXISTS key_pair (
    value text)
 """)
 
-session.execute("insert into key_pair (key, value) values (\'"
-+ string_generator(10) + "\', \'"
-+ string_generator(90) + "\')")
 
-result = session.execute("select * from key_pair ")[0]
-print result.key, result.value
+for i in range(operations):
+    session.execute("INSERT INTO key_pair (key, value) VALUES (\'"
+    + string_generator(10) + "\', \'"
+    + string_generator(90) + "\')")
+
+for i in range(operations):
+
+
+
+result = session.execute("select * from key_pair ")
+for i in result:
+    session.execute("DELETE FROM key_pair WHERE key = \'"+ i.key + "\'")
+    print result.key, result.value
