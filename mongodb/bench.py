@@ -2,7 +2,6 @@ import pymongo
 import string
 import random
 import time
-import timeit
 import sys
 
 def string_generator(size=10, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
@@ -41,17 +40,21 @@ db.command("shardcollection", "database.key-pair", key={ "_id": "hashed" })
 
 print "Starting timer..."
 startTotal = start = time.time()
+
 for i in range(operations):
     db.key_pair.insert_one({"_id":  string_generator(10), "value": string_generator(90)})
 print "Insert Time:",time.time() - start,"seconds"
+
 start = time.time()
 for i in range(operations):
     db.key_pair.find_one({"_id": string_generator(10)})
     #print db.key_pair.find_one({"_id": host+str(port)+str(i)})
 print "Lookup Time:",time.time() - start,"seconds"
+
 start = time.time()
 for item in db.key_pair.find():
     #print item
     db.key_pair.remove({"_id": item["_id"]})
 print "Delete Time:",time.time() - start,"seconds"
+
 print "Overall Time:",time.time() - startTotal,"seconds"
