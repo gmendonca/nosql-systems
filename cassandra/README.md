@@ -45,3 +45,12 @@ To stop:
 sudo service cassandra stop
 sudo rm -rf /var/lib/cassandra/data/system/*
 ```
+
+Installing pip and cassandra-driver:
+```bash
+$ sudo apt-get install python-pip python-dev build-essential
+$ sudo pip install --upgrade pip
+$ sudo pip install --upgrade virtualenv
+
+$ pip install cassandra-driver
+```
