@@ -41,8 +41,36 @@ To stop:
 sudo service cassandra stop
 sudo rm -rf /var/lib/cassandra/data/system/*
 ```
+## Troubleshooting:
+[Reference](https://www.digitalocean.com/community/tutorials/how-to-install-cassandra-and-run-a-single-node-cluster-on-ubuntu-14-04)
 
-Installing pip and cassandra-driver:
+If ```sudo service cassandra status``` gives you this error:
+
+```bash
+could not access pidfile for Cassandra
+```
+
+Then:
+
+```bash
+$ sudo nano +60 /etc/init.d/cassandra
+```
+
+This line:
+```/etc/init.d/cassandra
+CMD_PATT="cassandra.+CassandraDaemon"
+```
+
+should be like this:
+```/etc/init.d/cassandra
+
+CMD_PATT="cassandra"
+```
+
+After that, restart you node.
+
+## Installing pip and cassandra-driver:
+
 ```bash
 $ sudo apt-get install python-pip python-dev build-essential
 $ sudo pip install --upgrade pip
