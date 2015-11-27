@@ -21,7 +21,7 @@ or like this:
 $ echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java" >> ~/.bashrc
 ```
 
-
+[Reference](http://docs.datastax.com/en/cassandra/2.2/cassandra/install/installDeb.html)
 ```bash
 $ echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
 
@@ -52,5 +52,20 @@ $ sudo apt-get install python-pip python-dev build-essential
 $ sudo pip install --upgrade pip
 $ sudo pip install --upgrade virtualenv
 
-$ pip install cassandra-driver
+$ sudo pip install cassandra-driver
+```
+
+[Reference](http://docs.datastax.com/en/cassandra/2.0/cassandra/install/installRecommendSettings.html)
+Add line to ```/etc/sysctl.conf```:
+```
+vm.max_map_count = 131072
+```
+
+Configuration for file ```/etc/security/limits.d/cassandra.conf```:
+
+```
+cassandra - memlock unlimited
+cassandra - nofile 100000
+cassandra - nproc 32768
+cassandra - as unlimited
 ```
