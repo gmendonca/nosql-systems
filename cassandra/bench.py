@@ -11,7 +11,7 @@ session = cluster.connect()
 
 session.execute("""
 CREATE KEYSPACE IF NOT EXISTS data
-WITH replication = {'class':'SimpleStrategy', 'replication_factor':0 }
+WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}
 """)
 
 session.set_keyspace("data")
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS key_pair (
    value text)
 """)
 
-sql = "insert into key_pair (key, value) values ("+ string_generator(10) + ", " + string_generator(90) + ")"
-print sql
-#session.execute(sql)
+session.execute("insert into key_pair (key, value) values (\'"
++ string_generator(10) + "\', \'"
++ string_generator(90) + "\')")
 
-#result = session.execute("select * from key_pair ")[0]
-#print result.key, result.value
+result = session.execute("select * from key_pair ")[0]
+print result.key, result.value
