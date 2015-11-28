@@ -312,7 +312,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "172.31.9.97,172.31.9.96,172.31.9.98"
+          - seeds: "172.31.21.159,172.31.21.158,172.31.21.157,172.31.21.172"
 
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
@@ -495,7 +495,7 @@ rpc_port: 9160
 # be set to 0.0.0.0. If left blank, this will be set to the value of
 # rpc_address. If rpc_address is set to 0.0.0.0, broadcast_rpc_address must
 # be set.
-# broadcast_rpc_address: 1.2.3.4
+broadcast_rpc_address: 1.2.3.4
 
 # enable or disable keepalive on rpc/native connections
 rpc_keepalive: true
