@@ -85,6 +85,7 @@ $ sudo pip install cassandra-driver
 
 ## Limits configuration
 [Reference](http://docs.datastax.com/en/cassandra/2.0/cassandra/install/installRecommendSettings.html)
+
 Add line to ```/etc/sysctl.conf```:
 ```
 vm.max_map_count = 131072
