@@ -100,6 +100,15 @@ cassandra - nproc 32768
 cassandra - as unlimited
 ```
 
+## Creating hosts and seeds file
+
+```bash
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." | tail -n +5 > host
+
+ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." | head -4 > seeds
+
+
+```
 ## Setting up a Cluster
 
 In this part it's necessary [Parallel SSH](https://code.google.com/p/parallel-ssh/)
@@ -121,6 +130,8 @@ $ pssh -v -t 0 -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbo
 $ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo service cassandra start'
 
 $ pssh -v -t 0 -h hosts -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo service cassandra status'
+
+$ pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" cluster /home/ubuntu
 
 $ pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" bench.py /home/ubuntu
 
