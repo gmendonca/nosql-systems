@@ -126,3 +126,11 @@ $ pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i gu
 
 $ pssh -v -t 0 -h hosts -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'python bench.py 1000'
 ```
+
+## Troubleshooting on Seeting up cluster
+
+```bash
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo rm -rf /var/lib/cassandra/'
+
+pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chown -R cassandra:cassandra /var/lib/cassandra/'
+```
