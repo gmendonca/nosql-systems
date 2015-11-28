@@ -103,11 +103,11 @@ cassandra - as unlimited
 ## Creating hosts and seeds file
 
 ```bash
-$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." | tail -n +4 > host
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." | tail -n +4 > hosts
 
 ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." | head -3 > seeds
 
-
+ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
 ```
 ## Setting up a Cluster
 
@@ -142,15 +142,15 @@ $ pssh -v -t 0 -h hosts -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i g
 
 ```bash
 $ pssh -v -t 0 -h hosts -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo service cassandra stop'
-$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo rm -rf /var/lib/cassandra'
-$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo rm -rf /var/run/cassandra'
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo rm -rf /var/lib/cassandra/*'
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo rm -rf /var/run/cassandra/*'
 
 $ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo mkdir /var/lib/cassandra'
 $ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo mkdir /var/run/cassandra'
 
-$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chown -R cassandra:cassandra /var/lib/cassandra/'
-$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chown -R cassandra:cassandra /var/run/cassandra/'
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chown -R ubuntu:ubuntu /var/lib/cassandra/'
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chown -R ubuntu:ubuntu /var/run/cassandra/'
 
-$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chmod 750 /var/lib/cassandra'
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chmod 777 /var/lib/cassandra'
 $ pssh -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo chmod 750 /var/run/cassandra'
 ```

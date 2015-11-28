@@ -41,22 +41,25 @@ CREATE TABLE IF NOT EXISTS key_pair (
 print "Starting timer..."
 startTotal = start = time.time()
 
+key_pair_values= {}
 for i in range(operations):
+    key_pair_values[string_generator(10)] = string_generator(90)
+
+for key in key_pair_values:
     session.execute("INSERT INTO key_pair (key, value) VALUES (\'"
-    + string_generator(10) + "\', \'"
-    + string_generator(90) + "\')")
+    + key + "\', \'"
+    + key_pair_values[key] + "\')")
 print "Insert Time:",time.time() - start,"seconds"
 
 start = time.time()
-for i in range(operations):
-    result = session.execute("SELECT key, value FROM key_pair WHERE key = \'" + string_generator(10) + "\'")
+for key in key_pair_values:
+    result = session.execute("SELECT key, value FROM key_pair WHERE key = \'" + key+ "\'")
     #print result
 print "Lookup Time:",time.time() - start,"seconds"
 
 start = time.time()
-result = session.execute("select * from key_pair ")
-for i in result:
-    session.execute("DELETE FROM key_pair WHERE key = \'"+ i.key + "\'")
+for key in key_pair_values:
+    session.execute("DELETE FROM key_pair WHERE key = \'"+ key + "\'")
     #print i.key,i.value
 print "Delete Time:",time.time() - start,"seconds"
 
