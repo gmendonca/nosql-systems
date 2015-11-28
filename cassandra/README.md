@@ -102,7 +102,7 @@ cassandra - as unlimited
 
 ## Setting up a Cluster
 
-In this part it's necessary [Parallel SSH]()
+In this part it's necessary [Parallel SSH](https://code.google.com/p/parallel-ssh/)
 
 ```bash
 $ pssh -h hosts sudo service cassandra stop
