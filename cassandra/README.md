@@ -99,3 +99,17 @@ cassandra - nofile 100000
 cassandra - nproc 32768
 cassandra - as unlimited
 ```
+
+## Setting up a Cluster
+
+In this part it's necessary [Parallel SSH]()
+
+pssh -h hosts sudo service cassandra stop
+
+pssh -h hosts sudo rm -rf /var/lib/cassandra/data/system/*
+
+parallel-scp -h hosts cassandra.yaml /etc/cassandra/cassandra.yaml
+
+parallel-scp -h hosts cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
+
+pssh -h hosts sudo service cassandra start
