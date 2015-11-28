@@ -18,7 +18,8 @@ else:
 
 print "Number of operations:",operations
 
-cluster = Cluster()
+cluster = Cluster(['172.31.9.97','172.31.9.96', '172.31.9.98', '172.31.9.100',
+'172.31.9.94', '172.31.9.95', '172.31.9.93', '172.31.9.97'])
 session = cluster.connect()
 
 session.execute("""

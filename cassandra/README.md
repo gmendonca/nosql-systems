@@ -105,13 +105,22 @@ cassandra - as unlimited
 In this part it's necessary [Parallel SSH](https://code.google.com/p/parallel-ssh/)
 
 ```bash
-$ pssh -h hosts sudo service cassandra stop
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P sudo service cassandra stop
 
-$ pssh -h hosts sudo rm -rf /var/lib/cassandra/data/system/*
+$ pssh -v -t 0 -h hosts -l ubuntu -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P sudo rm -rf /var/lib/cassandra/data/system/*
 
-$ parallel-scp -h hosts cassandra.yaml /etc/cassandra/cassandra.yaml
+$ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" cassandra.yaml /home/ubuntu
 
-$ parallel-scp -h hosts cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
+$ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" cassandra-rackdc.properties /home/ubuntu
 
-$ pssh -h hosts sudo service cassandra start
+$ pssh -v -t 0 -h hosts -l ubuntu -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P sudo cp cassandra.yaml /etc/cassandra/cassandra.yaml
+
+$ pssh -v -t 0 -h hosts -l ubuntu -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P sudo cp cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties
+
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P sudo service cassandra start
+
+$ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" bench.py /home/ubuntu
+
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P python bench.py
+
 ```
