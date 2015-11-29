@@ -56,7 +56,7 @@ systemLog:
   path: /log/mongod.log
 ```
 
-Comment this line ```bindIp: 127.0.0.1``` on file ```/etc/mongodb.conf``` if it's a cluster:
+Comment this line ```bindIp: 127.0.0.1``` on file ```/etc/mongod.conf``` if it's a cluster:
 ```text
 # network interfaces
 net:
@@ -108,6 +108,15 @@ $ sudo pip install --upgrade virtualenv
 $ sudo pip install pymongo
 ```
 
+## Creating hosts filter
+```bash
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." > hosts
+
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
+```
+
+Remember to remove your config server from both lists. And double check the files this is not a guarantee.
+
 # Deploying a shard cluster
 
 ```bash
@@ -122,33 +131,32 @@ $ sudo mongod --configsvr --dbpath /data/configdb3 --port 27021 &
 
 Since I am using all the three config-servers in the same node:
 ```bash
-$ sudo mongos --configdb 172.31.3.43:27019,172.31.3.43:27020,172.31.3.43:27021
+$ sudo mongos --configdb 172.31.3.246:27019,172.31.3.246:27020,172.31.3.246:27021
 ```
 
 Now, for the client part:
 ```bash
-$ mongo --host 172.31.32.209 --port 27017
+$ mongo --host 172.31.3.246 --port 27017
 ```
 
 ```mongos
-mongos> sh.addShard( "172.31.4.62:27017" )
+mongos> sh.addShard( "172.31.3.254:27017" )
+mongos> sh.addShard( "172.31.3.253:27017" )
+mongos> sh.addShard( "172.31.3.252:27017" )
+mongos> sh.addShard( "172.31.3.251:27017" )
+mongos> sh.addShard( "172.31.3.255:27017" )
+mongos> sh.addShard( "172.31.3.245:27017" )
+mongos> sh.addShard( "172.31.3.244:27017" )
+mongos> sh.addShard( "172.31.4.4:27017" )
+mongos> sh.addShard( "172.31.3.250:27017" )
+mongos> sh.addShard( "172.31.3.249:27017" )
+mongos> sh.addShard( "172.31.3.248:27017" )
+mongos> sh.addShard( "172.31.3.247:27017" )
+mongos> sh.addShard( "172.31.4.1:27017" )
+mongos> sh.addShard( "172.31.4.0:27017" )
+mongos> sh.addShard( "172.31.4.3:27017" )
+mongos> sh.addShard( "172.31.4.2:27017" )
 
-mongos> sh.addShard( "172.31.5.177:27017" )
-mongos> sh.addShard( "172.31.5.176:27017" )
-mongos> sh.addShard( "172.31.5.175:27017" )
-mongos> sh.addShard( "172.31.5.174:27017" )
-mongos> sh.addShard( "172.31.5.181:27017" )
-mongos> sh.addShard( "172.31.5.180:27017" )
-mongos> sh.addShard( "172.31.5.179:27017" )
-mongos> sh.addShard( "172.31.5.178:27017" )
-mongos> sh.addShard( "172.31.5.185:27017" )
-mongos> sh.addShard( "172.31.5.184:27017" )
-mongos> sh.addShard( "172.31.5.183:27017" )
-mongos> sh.addShard( "172.31.5.182:27017" )
-mongos> sh.addShard( "172.31.5.172:27017" )
-mongos> sh.addShard( "172.31.5.173:27017" )
-mongos> sh.addShard( "172.31.5.170:27017" )
-mongos> sh.addShard( "172.31.5.171:27017" )
 
 mongos> sh.enableSharding("database")
 mongos> sh.shardCollection("database.key-pair",{ "_id": "hashed" })
@@ -166,15 +174,6 @@ $ scp -i guzz-macbook.pem sharding.py ubuntu@52.35.2.111:/home/ubuntu
 $ scp -i guzz-macbook.pem cluster ubuntu@52.35.2.111:/home/ubuntu
 ```
 
-## Creating hosts filter
-```bash
-$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." > hosts
-
-$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
-```
-
-Remember to remove your config server from both lists. And double check the files this is not a guarantee.
-
 ## Benchmarking
 
 In this part it's necessary [Parallel SSH](https://code.google.com/p/parallel-ssh/)
@@ -184,6 +183,6 @@ $ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbo
 
 $ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" bench.py /home/ubuntu
 
-$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo service mongod start'
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'python bench.py 10 172.31.3.246 27017'
 
 ```
