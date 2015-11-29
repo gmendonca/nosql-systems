@@ -1,0 +1,43 @@
+<project>
+    <property name="lib.dir"     value="lib"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <javac includeantruntime="false" srcdir="src" destdir="bin" classpathref="classpath"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="build/" />
+
+        <jar destfile="build/Client.jar">
+          <fileset includes="node/*.class,util/*.class" dir="bin/"/>
+          <zipgroupfileset includes="*.jar" dir="lib/"/>
+          <manifest>
+            <attribute name="Main-Class" value="node.Client"/>
+          </manifest>
+        </jar>
+
+        <jar destfile="build/Benchmarking.jar">
+          <fileset includes="node/*.class,bench/*.class,util/*.class" dir="bin/"/>
+          <zipgroupfileset includes="*.jar" dir="lib/"/>
+          <manifest>
+            <attribute name="Main-Class" value="bench.Benchmarking"/>
+          </manifest>
+        </jar>
+
+        <jar destfile="build/OpenBench.jar">
+          <fileset includes="node/*.class,bench/*.class,util/*.class,open/*class" dir="bin/"/>
+          <zipgroupfileset includes="*.jar" dir="lib/"/>
+          <manifest>
+            <attribute name="Main-Class" value="open.OpenBench"/>
+          </manifest>
+        </jar>
+    </target>
+</project>
