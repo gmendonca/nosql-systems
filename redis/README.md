@@ -2,6 +2,8 @@
 
 [Reference](http://redis.io/topics/cluster-tutorial)
 
+[Reference](https://github.com/Grokzen/redis-py-cluster)
+
 ## Installation
 
 ```bash
