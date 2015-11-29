@@ -59,6 +59,8 @@ $ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' |
 
 # Cluster
 
+In this part it's necessary [Parallel SSH](https://code.google.com/p/parallel-ssh/)
+
 ```bash
 $ sudo apt-get install ruby
 $ sudo gem install redis
