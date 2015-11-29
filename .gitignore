@@ -1,0 +1,5 @@
+*.pem
+.DS_Store
+cassandra/results/*
+mongodb/results/*
+redis/results/*
