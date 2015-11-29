@@ -1,3 +1,5 @@
+# Cassandra
+
 ## Installing Java
 
 ```bash
@@ -135,7 +137,7 @@ $ pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i gu
 
 $ pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" bench.py /home/ubuntu
 
-$ pssh -v -t 0 -h hosts -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'python bench.py 1000'
+$ pssh -v -t 0 -h hosts -h seeds -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'python bench.py 100000'
 ```
 
 ## Troubleshooting on Seeting up cluster
