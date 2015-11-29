@@ -29,32 +29,26 @@ client = pymongo.MongoClient(host, port)
 
 db = client.database
 
-db.key_pair.create_index([("_id", pymongo.HASHED)])
-db.key_pair.create_index("value")
-
-#sharding
-db.command("addshard", "172.31.2.87:27017")
-db.command("enablesharding", "database")
-db.command("shardcollection", "database.key-pair", key={ "_id": "hashed" })
-
-
 print "Starting timer..."
 startTotal = start = time.time()
 
+key_pair_values= {}
 for i in range(operations):
-    db.key_pair.insert_one({"_id":  string_generator(10), "value": string_generator(90)})
+    key_pair_values[string_generator(10)] = string_generator(90)
+
+for key in key_pair_values:
+    db.key_pair.insert_one({"_id":  key, "value": key_pair_values[key]})
 print "Insert Time:",time.time() - start,"seconds"
 
 start = time.time()
-for i in range(operations):
-    db.key_pair.find_one({"_id": string_generator(10)})
+for key in key_pair_values:
+    db.key_pair.find_one({"_id": key})
     #print db.key_pair.find_one({"_id": host+str(port)+str(i)})
 print "Lookup Time:",time.time() - start,"seconds"
 
 start = time.time()
-for item in db.key_pair.find():
-    #print item
-    db.key_pair.remove({"_id": item["_id"]})
+for key in key_pair_values:
+    db.key_pair.remove({"_id": key})
 print "Delete Time:",time.time() - start,"seconds"
 
 print "Overall Time:",time.time() - startTotal,"seconds"

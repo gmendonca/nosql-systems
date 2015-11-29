@@ -122,7 +122,7 @@ $ sudo mongod --configsvr --dbpath /data/configdb3 --port 27021 &
 
 Since I am using all the three config-servers in the same node:
 ```bash
-$ sudo mongos --configdb 172.31.11.46:27019,172.31.11.46:27020,172.31.11.46:27021
+$ sudo mongos --configdb 172.31.3.43:27019,172.31.3.43:27020,172.31.3.43:27021
 ```
 
 Now, for the client part:
@@ -131,15 +131,59 @@ $ mongo --host 172.31.32.209 --port 27017
 ```
 
 ```mongos
-mongos> sh.addShard( "172.31.2.87:27017" )
-mongos> sh.addShard( "172.31.1.239:27017" )
-mongos> sh.addShard( "172.31.8.17:27017" )
-mongos> sh.addShard( "172.31.5.144:27017" )
-mongos> sh.addShard( "172.31.6.218:27017" )
-mongos> sh.addShard( "172.31.2.22:27017" )
-mongos> sh.addShard( "172.31.6.24:27017" )
-mongos> sh.addShard( "172.31.6.186:27017" )
+mongos> sh.addShard( "172.31.4.62:27017" )
+
+mongos> sh.addShard( "172.31.5.177:27017" )
+mongos> sh.addShard( "172.31.5.176:27017" )
+mongos> sh.addShard( "172.31.5.175:27017" )
+mongos> sh.addShard( "172.31.5.174:27017" )
+mongos> sh.addShard( "172.31.5.181:27017" )
+mongos> sh.addShard( "172.31.5.180:27017" )
+mongos> sh.addShard( "172.31.5.179:27017" )
+mongos> sh.addShard( "172.31.5.178:27017" )
+mongos> sh.addShard( "172.31.5.185:27017" )
+mongos> sh.addShard( "172.31.5.184:27017" )
+mongos> sh.addShard( "172.31.5.183:27017" )
+mongos> sh.addShard( "172.31.5.182:27017" )
+mongos> sh.addShard( "172.31.5.172:27017" )
+mongos> sh.addShard( "172.31.5.173:27017" )
+mongos> sh.addShard( "172.31.5.170:27017" )
+mongos> sh.addShard( "172.31.5.171:27017" )
+
 mongos> sh.enableSharding("database")
 mongos> sh.shardCollection("database.key-pair",{ "_id": "hashed" })
+
+```
+
+or
+
+use the python ```sharding.py``` file ( not working properly ):
+
+```bash
+$ scp -i guzz-macbook.pem sharding.py ubuntu@52.35.2.111:/home/ubuntu
+
+
+$ scp -i guzz-macbook.pem cluster ubuntu@52.35.2.111:/home/ubuntu
+```
+
+## Creating hosts filter
+```bash
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." > hosts
+
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
+```
+
+Remember to remove your config server from both lists. And double check the files this is not a guarantee.
+
+## Benchmarking
+
+In this part it's necessary [Parallel SSH](https://code.google.com/p/parallel-ssh/)
+
+```bash
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo service mongod start'
+
+$ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" bench.py /home/ubuntu
+
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo service mongod start'
 
 ```
