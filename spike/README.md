@@ -4,6 +4,8 @@ Spike is a simple Distributed Hashtable using Java sockets and Java inbuilt Hash
 
 [Reference](https://github.com/gmendonca/distributed-hash-table)
 
+Icon - explosion by Magicon from the Noun Project
+
 ## Configure
 
 There is a [JSON file](https://code.google.com/p/json-simple/) in the system. The prebuilt configuration is 8 servers running in localhost,
@@ -83,3 +85,53 @@ any sort of verification here. So in order to use the program, keep it fair.
 
 P.S.: The number of server will be the number provided in the config file.
 And the operations will Put, Get, and Del from all of them depending on the key value.
+
+## Nodes
+
+### Dependencies
+
+```bash
+$ sudo apt-get update
+$ sudo apt-get install openjdk-7-jdk
+
+$ sudo update-alternatives --config java
+$ vim ~/.bashrc
+```
+
+Set the JAVA_HOME like this:
+
+```bash
+$ vim ~/.bashrc
+
+
+#JAVA_HOME
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
+export PATH=$JAVA_HOME/bin:$PATH
+```
+
+```bash
+$ sudo apt-get install ant
+```
+
+### Installing Spike
+
+```bash
+$ sudo apt-get install git
+$ git clone https://github.com/gmendonca/distributed-hash-table.git
+$ cd distributed-hash-table
+$ mkdir lib bin
+$ cd lib
+$ wget https://json-simple.googlecode.com/files/json-simple-1.1.1.jar
+
+$ ant compile & ant jar
+```
+
+## Creating hosts and seeds file
+
+```bash
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." > hosts
+
+ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
+```
+
+## Benchmarking
