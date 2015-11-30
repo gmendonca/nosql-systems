@@ -2,7 +2,7 @@
 
 Spike is a simple Distributed Hashtable using Java sockets and Java inbuilt Hashtable for store key-value pairs.
 
-[Reference](https://github.com/gmendonca/distributed-hash-table)
+[Reference](https://github.com/gmendonca/spike)
 
 Icon - explosion by Magicon from the Noun Project
 
@@ -96,6 +96,7 @@ $ wget https://json-simple.googlecode.com/files/json-simple-1.1.1.jar
 $ ant compile & ant jar
 ```
 
+
 ## Creating hosts and seeds file
 
 ```bash
@@ -107,9 +108,11 @@ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | g
 ## Benchmarking
 
 ```bash
-pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" config.json /home/ubuntu
+$ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" config.json /home/ubuntu
 
-$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteServer.jar $PSSH_NODENUM'
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteServer.jar $PSSH_NODENUM &'
 
-$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/Remote Server.jar $PSSH_NODENUM 100000'
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteClient.jar $PSSH_NODENUM 100000'
+
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo reboot'
 ```
