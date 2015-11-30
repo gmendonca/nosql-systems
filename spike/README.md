@@ -102,7 +102,7 @@ $ ant compile & ant jar
 ```bash
 $ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "52\." > hosts
 
-ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
+$ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | grep "172\." > cluster
 ```
 
 ## Benchmarking
@@ -110,9 +110,9 @@ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | g
 ```bash
 $ pscp -v -t 0 -h hosts -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" config.json /home/ubuntu
 
-$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteServer.jar $PSSH_NODENUM &'
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteServer.jar &'
 
-$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteClient.jar $PSSH_NODENUM 100000'
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteClient.jar 100000'
 
 $ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'sudo reboot'
 ```
