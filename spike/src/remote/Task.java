@@ -1,8 +1,9 @@
 package remote;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import node.Peer;
 
@@ -11,24 +12,28 @@ public class Task extends Thread {
 	private Socket socket;
 	private Peer peer;
 
+	private int numThreads = 4;
+
 	public Task(Socket socket, Peer peer) {
 		this.socket = socket;
 		this.peer = peer;
 	}
 
 	public void run() {
-		
+
+		public void run() {
+
 		try {
-			
+
 			while(true){
 				//synchronized(socket){
 					DataInputStream dIn = new DataInputStream(socket.getInputStream());
 					DataOutputStream dOut = null;
-					
+
 					byte option = dIn.readByte();
 					//System.out.println(option);
 					String key, value;
-		
+
 					switch (option) {
 					case 0:
 						key = dIn.readUTF();
@@ -61,7 +66,7 @@ public class Task extends Thread {
 		} catch (Exception e) {
 			//System.out.println("Nothing happened");
 			//e.printStackTrace();
-			
+
 		}
 
 	}

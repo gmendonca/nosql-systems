@@ -136,12 +136,12 @@ public class Client extends Thread {
 			port = Integer.parseInt(peerAddress[1]);
 
 			try {
-				//System.out.println("Testing connection to server " + address + ":"
-				//		+ port);
+				System.out.println("Testing connection to server " + address + ":"
+						+ port);
 				Socket s = new Socket(address, port);
 				socketList.add(s);
-				//System.out.println("Server " + address + ":"
-				//		+ port + " is running.");
+				System.out.println("Server " + address + ":"
+						+ port + " is running.");
 			} catch (Exception e) {
 				// System.out.println("Not connected to server " + address + ":"
 				// + port);
