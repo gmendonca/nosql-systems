@@ -12,21 +12,7 @@ There is a [JSON file](https://code.google.com/p/json-simple/) in the system. Th
 from ports 13000 to 13007. If you need to run in a different situation, you have to change the values
 there. It's a simple array of strings using the format "address:port".
 
-## Build
-### Maven
-
-There is a maven option, but just for the main functionality of the system.
-For benchmarking, go ahead and use the Ant option.
-
-```sh
-$ mvn package
-```
-
-```sh
-$ java -jar target/distributed-hash-table-0.0.1.jar 0 localhost 13000
-```
-
-### Ant
+## Build - Ant
 
 For the Ant option, there is three options to run the program: as a client with an user
 interface, and for doing benchmarking there is two approaches, one open and closing the socket
@@ -46,32 +32,18 @@ $ ant jar
 
 ## How to use
 
-I provided a simple script to make it easier to run the program. You need to run it this way:
-
+Run the jar files like this:
 ```sh
-source script.sh
-```
+java -jar build/Client.jar <PeerId> <Address> <Port>
 
-And then you can type `help` to see the options:
+java -jar build/RemoteClient.jar <Id> <Number of operations>
 
-```
-run_openbench - Run Benchmarking leaving the socket open
-run_client - Run a Client and Server with an user interface
-run_bench - Run Benchmarking closing and opening the socket
-```
-
-Or you can run the jar files like this:
-```sh
-java -jar build/OpenBench.jar <PeerId> <Address> <Port>
-
-java -jar build/OpenBench.jar <Number of operations> <Number of Clients>
-
-java -jar build/OpenBench.jar <Number of operations> <Number of Clients>
+java -jar build/RemoteServer.jar <Id>
 ```
 
 The options for both option are explained above:
 
-* PeerId - It should be a number starting from 0 and going until the limit of
+* Id - It should be a number starting from 0 and going until the limit of
 the number of Peers provided in the config file. Keep in mind, that there isn't
 any sort of verification here. So in order to use the program, keep it fair.
 
@@ -80,8 +52,6 @@ any sort of verification here. So in order to use the program, keep it fair.
 * Port - A valid port number for the provided address.
 
 * Number Operations - Number of Put, Get and Del operations to run in each client.
-
-* Number of Clients - Number of Clients that you will run the benchmarking.
 
 P.S.: The number of server will be the number provided in the config file.
 And the operations will Put, Get, and Del from all of them depending on the key value.
@@ -117,8 +87,8 @@ $ sudo apt-get install ant
 
 ```bash
 $ sudo apt-get install git
-$ git clone https://github.com/gmendonca/distributed-hash-table.git
-$ cd distributed-hash-table
+$ git clone https://github.com/gmendonca/spike.git
+$ cd spike
 $ mkdir lib bin
 $ cd lib
 $ wget https://json-simple.googlecode.com/files/json-simple-1.1.1.jar
@@ -135,3 +105,11 @@ ec2-describe-instances --filter "instance-type=m3.medium" | awk '{print $2}' | g
 ```
 
 ## Benchmarking
+
+```bash
+pscp -v -t 0 -h hosts -h seeds -l ubuntu -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" config.json /home/ubuntu
+
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/RemoteServer.jar $PSSH_NODENUM'
+
+$ pssh -v -t 0 -h hosts -l ubuntu  -x "-o StrictHostKeyChecking=no -i guzz-macbook.pem" -P 'java -jar spike/build/Remote Server.jar $PSSH_NODENUM 100000'
+```
