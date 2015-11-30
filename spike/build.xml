@@ -24,19 +24,19 @@
           </manifest>
         </jar>
 
-        <jar destfile="build/Benchmarking.jar">
-          <fileset includes="node/*.class,bench/*.class,util/*.class" dir="bin/"/>
+        <jar destfile="build/RemoteClient.jar">
+          <fileset includes="remote/*.class,util/*.class" dir="bin/"/>
           <zipgroupfileset includes="*.jar" dir="lib/"/>
           <manifest>
-            <attribute name="Main-Class" value="bench.Benchmarking"/>
+            <attribute name="Main-Class" value="remote.Client"/>
           </manifest>
         </jar>
 
-        <jar destfile="build/OpenBench.jar">
-          <fileset includes="node/*.class,bench/*.class,util/*.class,open/*class" dir="bin/"/>
+        <jar destfile="build/RemoteServer.jar">
+          <fileset includes="remote/*.class,util/*.class,node/*.class" dir="bin/"/>
           <zipgroupfileset includes="*.jar" dir="lib/"/>
           <manifest>
-            <attribute name="Main-Class" value="open.OpenBench"/>
+            <attribute name="Main-Class" value="remote.Server"/>
           </manifest>
         </jar>
     </target>
