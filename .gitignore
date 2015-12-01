@@ -3,3 +3,4 @@
 cassandra/results/*
 mongodb/results/*
 redis/results/*
+spike/results/*

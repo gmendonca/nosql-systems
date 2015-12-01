@@ -16,6 +16,7 @@ Set the JAVA_HOME like this:
 $ vim ~/.bashrc
 
 
+
 #JAVA_HOME
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre
 export PATH=$JAVA_HOME/bin:$PATH
